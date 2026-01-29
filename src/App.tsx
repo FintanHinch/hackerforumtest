@@ -1,35 +1,60 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useMemo, useState } from "react";
+import { useStories, type FeedType } from "./hooks/useStories";
+import { PAGE_SIZE } from "./constants/constants";
+import FeedToggle from "./components/FeedToggle/FeedToggle";
+import StoryList from "./components/StoryList/StoryList";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [feed, setFeed] = useState<FeedType>("top");
+  const [pageCount, setPageCount] = useState(1);
+
+  const { stories, isLoading, isError, errorMessage, hasMore, refetchAll } = useStories({
+    feed,
+    pageSize: PAGE_SIZE,
+    pageCount,
+  });
+
+  const isLoadingMore = isLoading && stories.length > 0;
+
+  const title = useMemo(() => (feed === "top" ? "Top stories" : "New stories"), [feed]);
+
+  function handleChangeFeed(next: FeedType) {
+    setFeed(next);
+    setPageCount(1);
+  }
+
+  function handleLoadMore() {
+    setPageCount((c) => c + 1);
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className="container">
+      <header className="row mb-24">
+        <h1 className="m-0">Hacker News</h1>
+        <FeedToggle value={feed} onChange={handleChangeFeed} />
+      </header>
 
-export default App
+      <div className="row mb-12">
+        <p className="muted m-0">
+          {title} • showing {stories.length} items
+        </p>
+
+        {isLoadingMore && <p className="muted m-0">Loading more…</p>}
+      </div>
+
+      <StoryList
+        stories={stories}
+        isLoading={isLoading}
+        isError={isError}
+        errorMessage={errorMessage}
+        onRetry={refetchAll}
+      />
+
+      <div className="mt-16">
+        <button className="btn" onClick={handleLoadMore} disabled={!hasMore || isLoading}>
+          {hasMore ? (isLoadingMore ? "Loading…" : "Load more") : "No more stories"}
+        </button>
+      </div>
+    </div>
+  );
+}
