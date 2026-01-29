@@ -1,0 +1,27 @@
+.story-card {
+  padding: 14px 14px 12px;
+
+  .story-main {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .story-title {
+    font-size: 16px;
+    font-weight: 650;
+    line-height: 1.25;
+  }
+
+  .story-host {
+    font-size: 13px;
+  }
+
+  .story-meta {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 13px;
+  }
+}

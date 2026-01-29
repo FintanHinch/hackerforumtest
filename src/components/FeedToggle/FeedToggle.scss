@@ -1,0 +1,9 @@
+.feed-toggle {
+  display: flex;
+  gap: 8px;
+
+  .btn.active {
+    background: #1f2638;
+    border-color: #3b82f6;
+  }
+}
