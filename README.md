@@ -13,7 +13,7 @@ Small React + Typescript webpage that displays Hacker News stories using the off
             - React Typescript Vite
             - TanStack React Query
             - SCSS
-            - Vitest = Testing Library
+            - Vitest + Testing Library
 
 # Setup
 
