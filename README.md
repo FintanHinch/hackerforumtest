@@ -16,7 +16,7 @@ Small React + Typescript webpage that displays Hacker News stories using the off
             - Vitest + Testing Library
 
 
-#Future Improvements
+# Future Improvements
             - Add barrel files for cleaner imports
 
             
