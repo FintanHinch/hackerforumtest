@@ -23,4 +23,5 @@ Small React + Typescript webpage that displays Hacker News stories using the off
 # Setup
 
 npm i
+
 npm run dev
